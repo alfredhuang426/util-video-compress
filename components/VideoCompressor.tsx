@@ -143,6 +143,23 @@ const VideoCompressor: React.FC = () => {
     }
   };
 
+  const passDataToParent = () => {
+    if (outputVideo) {
+      try {
+        // 使用 postMessage 向父窗口發送壓縮後的視頻 URL
+        window.parent.postMessage({
+          type: 'COMPRESSED_VIDEO_READY',
+          videoUrl: outputVideo,
+          stats: compressionStats
+        }, '*');
+        console.log('已向父窗口發送壓縮視頻數據');
+      } catch (error) {
+        console.error('向父窗口傳送數據時出錯:', error);
+        setError('向父窗口傳送數據失敗。');
+      }
+    }
+  };
+
   const toggleLogs = () => {
     setShowLogs(!showLogs);
   };
@@ -224,6 +241,12 @@ const VideoCompressor: React.FC = () => {
             className="w-full py-3 px-4 rounded-md text-white font-semibold bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 transition-colors duration-200"
           >
             {t('downloadCompressedVideo')}
+          </button>
+          <button
+            onClick={passDataToParent}
+            className="mt-6 w-full py-3 px-4 rounded-md text-white font-semibold bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 transition-colors duration-200"
+          >
+            {t('passDataToParent')}
           </button>
           <h3 className="text-xl font-semibold my-4 text-gray-800 dark:text-gray-200">{t('compressedVideo')}</h3>
           <video src={outputVideo} controls className="w-full rounded-lg shadow-lg mb-6">

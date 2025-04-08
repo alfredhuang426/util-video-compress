@@ -14,6 +14,7 @@
     "compressionRatio": "壓縮率: {power}%",
     "downloadCompressedVideo": "下載壓縮後的影片",
     "compressedVideo": "壓縮影片預覽",
-    "videoNotSupported": "您的瀏覽器不支援影片播放。"
+    "videoNotSupported": "您的瀏覽器不支援影片播放。",
+    "passDataToParent": "傳遞資料給父元件"
   }
 } 

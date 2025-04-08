@@ -14,6 +14,7 @@
     "compressionRatio": "Compression Ratio: {power}%",
     "downloadCompressedVideo": "Download Compressed Video",
     "compressedVideo": "Compressed Video Preview",
-    "videoNotSupported": "Your browser does not support the video tag."
+    "videoNotSupported": "Your browser does not support the video tag.",
+    "passDataToParent": "Pass Data to Parent"
   }
 } 
