@@ -1,5 +1,8 @@
 const withNextIntl = require('next-intl/plugin')();
-const withHttps = require('next-https');
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+// 只在開發環境中加載 withHttps
+const withHttps = isDevelopment ? require('next-https') : (config) => config;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -33,10 +36,15 @@ const nextConfig = {
   },
 };
 
-module.exports = withNextIntl(withHttps({
-  ...nextConfig,
-  https: {
-    key: './tool.myweb.com-key.pem',
-    cert: './tool.myweb.com.pem',
-  },
-})); 
+// 根據環境決定是否添加 HTTPS 配置
+module.exports = withNextIntl(
+  isDevelopment 
+    ? withHttps({
+        ...nextConfig,
+        https: {
+          key: './ee.com-key.pem',
+          cert: './ee.com.pem',
+        },
+      })
+    : nextConfig
+); 
