@@ -23,6 +23,7 @@ const VideoCompressor: React.FC = () => {
   const [logMessages, setLogMessages] = useState<string[]>([]);
   const [showLogs, setShowLogs] = useState<boolean>(false);
   const [loaded, setLoaded] = useState(false);
+  const [videoData, setVideoData] = useState<Uint8Array<ArrayBufferLike>>();
   const ffmpegRef = useRef<FFmpeg>();
 
   useEffect(() => {
@@ -106,6 +107,7 @@ const VideoCompressor: React.FC = () => {
         URL.revokeObjectURL(outputVideo);
       }
 
+      setVideoData(data);
       const url = URL.createObjectURL(new Blob([data], { type: 'video/mp4' }));
       setOutputVideo(url);
 
@@ -150,7 +152,8 @@ const VideoCompressor: React.FC = () => {
         window.parent.postMessage({
           type: 'COMPRESSED_VIDEO_READY',
           videoUrl: outputVideo,
-          stats: compressionStats
+          stats: compressionStats,
+          videoData: videoData
         }, '*');
         console.log('已向父窗口發送壓縮視頻數據');
       } catch (error) {
